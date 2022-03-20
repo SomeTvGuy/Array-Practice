@@ -132,25 +132,31 @@ public class ArrayPractice {
   /*  if index < 0 or index >= A.length-1, the method */
   /*                                    does nothing */
   public static void insert(int A[], int n, int index) {
-    boolean lol = true;
-    if (index < 0 || index >= A.length-1){
-    lol = false;   
-    }
-    if( lol = true){
-    for (int i =0 ; i <A.length; i++){  
+    if (!(index < 0 || index >= A.length-1)){
+        // make a temporary copy of the array to count throguh the array given
+        int[] temp = new int[A.length];
+        // making a for loop to create a deep copy of the A array       
+        for (int i =0 ; i <A.length; i++){
+            temp[i]= A[i];
+            if (i == index){
+                A[i] =n;
+                i++;
+        // After incrementing I by 1 this line passs the current index of A[i] to temp
+                temp[i]= A[i];
+            } 
+            if (i < index){
+            A[i] = A[i];
+            }
+            if (i > index ){
+        // by setting A[i] to temps current index m,minus 1 we esttentially gave te array of a it's previous value 
+            A[i]= temp[i-1];
 
-      if (i < index){
-        A[i] = A[i];
-      }
-      if (index < i){
-        A[i] = A[i+1];
-      }
-    A[index] =n;
+            }                                
+        }
+        
     }
-  }
-    return;
-  }
-
+    
+}
   /* returns a new array consisting of all of the
    * elements of A[] */
   public static int[] copy(int A[]) {
@@ -166,23 +172,25 @@ public class ArrayPractice {
      new array of size n, with the first A.length elements
      exactly the same as A, and the remaining n-A.length elements
      set to 0. If n<=0, returns null. */
-  public static int[] copyN(int A[], int n) {
-    int []CopyOfArray = new int [n];
-    if (n <=0){
-      return null;
+     public static int[] copyN(int A[], int n) {
+      if (n <=0){
+        return null;
+      }
+      int []CopyOfArray;
+      if (n >A.length){
+        CopyOfArray= new int[n];
+        for (int i = 0; i< A.length ;i++){
+          CopyOfArray[i]= A[i];
+        }
+      }
+      else{
+        CopyOfArray = new int[n];
+      for (int i = 0; i< n ;i++){
+        CopyOfArray[i]= A[i];
+      }
     }
-    if (n > A.length){
-    for (int i = 0; i< n ;i++){
-      CopyOfArray[i]= A[i];
-    }
-    return CopyOfArray;
-    }
-    for (int i = 0; i< n ;i++){
-      CopyOfArray[i]= A[i];
-    }
-    return CopyOfArray;
-    
-}
+      return CopyOfArray;
+  }
 
   /* returns a new array consisting of all of the
    * elements of A[] followed by all of the
@@ -192,29 +200,28 @@ public class ArrayPractice {
    array : {10,20,30,5,9,38} */
   public static int[] copyAll(int A[], int B[]) {
     int []CopyOfArray= new int [A.length+B.length];
-    for (int i = 0; i< (A.length);i++){
-      if (i <=A.length){
+    for (int i = 0; i< A.length;i++){
         CopyOfArray[i]= A[i];
-      }
-    if (i > A.length){
-      for (int n =0;n<B.length;n++){
-      CopyOfArray[i] = B[n];
-      }
-    } 
-}
+    }
+    for (int n =0;n<B.length;n++){
+      CopyOfArray[A.length+n] = B[n];
+    }
+     
+
 return CopyOfArray;
   }
-  /* reverses the order of the elements in A[].
+  /* reverses the order of the elements in A[]
    * For example, if A[] is:
    {10,20,30,40,50}, after the method, A[] would
    be {50,40,30,20,10} */
-  public static void reverse(int A[]) {
-    int []Copy = new int[A.length];
-    for (int i = A.length-1 ; i> 0 ;i--){
-      Copy[A.length-i] =A[i];
+   public static void reverse(int A[]) {
+    int temp;
+    for (int i = 0;i< A.length/2 ;i++){
+        temp= A[i];
+        A[i]=A[(A.length-1)-i];
+        A[A.length-1-i]=temp;
     }
-    A=Copy;
-  } 
+}
 
   /* Extra credit:
    *
@@ -223,8 +230,43 @@ return CopyOfArray;
    * if A[] is {10,20,5,32,5,10,9,32,8}, the method returns
    * the array {10,20,5,32,9,8} */
   public static int[] uniques(int A[]) {
-    return null;
-  }
+    // this program takes a given array, removes all of the duplicate elements of the array, then makes a new array which holds all the elemnts in the roder they were found
+    // possible ideas include:
+    // 1. Using a temp variable to hold a copy of the array to look at the previous elements, then form a new array with the size of elemnts found that only appear once
+    // 2. use a for loop and use the current index of the array as a temporary 
+    int Temp[] =new int[A.length];
+    int Count = 0;
+    int Count2 = 0;
+    int Count3 =-1; 
+    for (int i =0;i<A.length;i++){
+        Temp[i] =A[i];
+        for (int x = i; x<A.length;x++){
+            if (Temp[i] == A[x]){
+                Count ++;
+                if (Count > 1){
+                A[x] = 969;
+                Count2 =1;
+            }
+            }
+           }
+        if(Count2 == 1){      
+            Count3 ++;
+        } 
+        Count = 0;
+        Count2 = 0;
+    } 
+    int []Cope = new int[A.length-Count3];
+    for (int i = 0; i< A.length;i++){
+        if (A[i]== 969){
+            Count++;
+            continue;
+        }
+        Cope[i-Count]=A[i];
+    }  
+    return Cope;
+
+}
+
 
   public static void main(String[] args) {
     return;
